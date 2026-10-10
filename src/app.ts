@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import cors from 'cors';
 
 // Local Imports (NOTE: .mts extension is required in ESM)
 import routes from './routes/index.mts';
@@ -42,6 +43,7 @@ app.use('/api', limiter);
 
 // --- 2. ROUTES ---
 // We use versioning (/v1) so we can update the API later without breaking old clients
+app.use(cors())
 app.use('/api/v1/', routes);
 
 
