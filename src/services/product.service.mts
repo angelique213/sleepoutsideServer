@@ -16,7 +16,7 @@ const validCategories = [
 const getAllProducts = async (query: QueryParams) => {
   const cleanQuery = sanitize(query);
   const limit =
-    cleanQuery.limit && Number.isFinite(cleanQuery.limit)
+    cleanQuery.limit && Number.isFinite(+cleanQuery.limit)
       ? +cleanQuery.limit
       : 20;
   const offset =
