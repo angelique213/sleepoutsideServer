@@ -1,5 +1,13 @@
+import type { JSONSchema7 } from "json-schema";
+
+// This extends the library's type definition to include your custom keyword
+declare module "json-schema" {
+  export interface JSONSchema7 {
+    instanceof?: string | string[];
+  }
+}
 // Product schema
-export const ProductSchema = {
+export const ProductSchema: JSONSchema7 = {
   $schema: "http://json-schema.org/draft-07/schema#",
   title: "Product",
   description: "",
@@ -118,7 +126,7 @@ export const ProductSchema = {
 };
 
 // User schema
-export const UserSchema = {
+export const UserSchema: JSONSchema7 = {
   $schema: "http://json-schema.org/draft-07/schema#",
   title: "User",
   description: "",
@@ -272,7 +280,7 @@ export const UserSchema = {
 };
 
 // Order schema
-export const OrderSchema = {
+export const OrderSchema: JSONSchema7 = {
   $schema: "http://json-schema.org/draft-07/schema#",
   title: "Order",
   description: "",
@@ -434,7 +442,7 @@ export const OrderSchema = {
 };
 
 // Alert schema
-export const AlertSchema = {
+export const AlertSchema: JSONSchema7 = {
   $schema: "http://json-schema.org/draft-07/schema#",
   title: "Alert",
   description: "",

@@ -1,4 +1,11 @@
-import type { Product, QueryParams } from "../models/types.mts";
+import type { Product, QueryParams, User } from "../models/types.mts";
+import jwt from "jsonwebtoken";
+import type { StringValue } from "ms";
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
+import addKeywords from "ajv-keywords";
+import type { JSONSchema7 } from "json-schema";
+import EntityNotFoundError from "../errors/EntityNotFoundError.mts";
 
 export function formatFields(fields: string) {
   const fieldsArr = fields.split(",");
@@ -41,7 +48,7 @@ export function buildPaginationWrapper(totalCount: number, query: QueryParams) {
     params.set("offset", (offset + limit).toString());
     next = `/?${params}`;
   }
-
+  console.log("Query: " + JSON.stringify(query));
   return {
     count: totalCount,
     prev: prev || null,
@@ -61,5 +68,43 @@ export function sanitize(v: Record<string, any>) {
       }
     }
   }
+  console.log(JSON.stringify(v));
   return v;
+}
+
+export async function generateToken(user: User): Promise<string> {
+  const secretKey = (process.env.JWT_SECRET || "secret") as StringValue;
+  const expires = (process.env.JWT_EXPIRES_IN || "10m") as StringValue;
+
+  const userInfo = {
+    email: user.email,
+    _id: user._id,
+  } as User;
+
+  const token = jwt.sign(userInfo, secretKey, {
+    expiresIn: expires,
+  });
+
+  return token;
+}
+
+export function validator(schema: JSONSchema7, data: Object) {
+  // for some reason typescript doesn't like this even though it is exactly how the documentation says to use these. We are just going to ignore the types for now 🤷🏻‍♂️
+  // @ts-ignore
+  const ajv = new Ajv();
+  // @ts-ignore
+  addFormats(ajv);
+  // @ts-ignore
+  addKeywords(ajv, "instanceof");
+  const validate = ajv.compile(schema);
+  if (!validate(data)) {
+    if (validate.errors) {
+      // validate.errors is an array.  I've never seen more than one error come back...but just in case we can map over it and pull out the message(s)
+      // We need to do this because our errorHandler is expecting a string...not an array of objects.
+      const message = validate.errors
+        .map((error: any) => error.instancePath + " " + error.message)
+        .join(", ");
+      throw new EntityNotFoundError({ message: message, statusCode: 400 });
+    }
+  }
 }
