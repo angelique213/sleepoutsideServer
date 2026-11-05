@@ -8,6 +8,7 @@ const router: Router = Router();
 router.get("/", async (req, res, next) => {
   // console.log(req.headers, req.body);
   try {
+    console.log("/products route hit");
     const query: QueryParams = req.query;
     console.log(query);
     const results = await productService.getAllProducts(query);
