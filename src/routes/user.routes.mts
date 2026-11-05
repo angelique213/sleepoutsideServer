@@ -14,7 +14,7 @@ router.get("/protected", authorize, (req, res) => {
 
 router.post("/login", async (req, res, next) => {
   try {
-    console.log("hitting login route");
+    console.log("hitting login route: " + req.body);
     const email = sanitize(req.body.email);
     const password = sanitize(req.body.password);
     // call the service function, pass in the email and password.
@@ -36,7 +36,7 @@ router.post("/login", async (req, res, next) => {
       user: {
         _id: loginResult.user._id,
         email: loginResult.user.email,
-        name: loginResult.user.name,
+        name: `${loginResult.user.firstName} ${loginResult.user.lastName}`,
       },
       token: loginResult.token,
     };

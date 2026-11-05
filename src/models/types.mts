@@ -68,7 +68,8 @@ export interface User {
   _id?: string;
   email: string;
   passwordHash: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   address?: Address;
   phoneNumbers?: PhoneNumber[];
   cart?: CartItem[];
