@@ -55,7 +55,14 @@ const getProductsById = async (id: string) => {
   return await productModel.getProductsById(id);
 };
 
+const getRecommendedProducts = async (id: string, category: ProductCategory) => {
+
+  const recommendedProducts = await productModel.getRecommendedProducts(id, category)
+  return recommendedProducts
+}
+
 export default {
   getAllProducts,
   getProductsById,
+  getRecommendedProducts
 };

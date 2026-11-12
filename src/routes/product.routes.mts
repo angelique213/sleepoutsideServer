@@ -56,4 +56,29 @@ router.get("/:id", async (req, res, next) => {
   res.status(200).json(product);
 });
 
+router.get("/:id/recommended", async (req, res, next) => {
+    const { id } = req.params;
+    if (!id) {
+      return next(new EntityNotFoundError({
+        message: "Id required",
+        code: "ERR_VALID",
+        statusCode: 400,
+      }))
+    }
+
+    const product = await productService.getProductsById(id)
+    if (!product) {
+      return next(new EntityNotFoundError({
+        message: `Product ${id} not found`,
+        code: "ERR_NF",
+        statusCode: 404,
+      }))
+    }
+
+    const recommendedProducts = await productService.getRecommendedProducts(id, product.category)
+
+    res.status(200).json(recommendedProducts)
+
+})
+
 export default router; // Export the router to use it in the main file
