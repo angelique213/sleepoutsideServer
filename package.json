@@ -22,6 +22,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
     "@types/ms": "^2.1.0",
+    "@types/multer": "^2.3.0",
     "@types/node": "^22.13.9",
     "@types/swagger-ui-express": "^4.1.8",
     "dotenv": "^17.2.3",
@@ -42,6 +43,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.0.0",
     "morgan": "^1.10.1",
+    "multer": "^2.5.0",
     "swagger-ui-express": "^5.0.1"
   },
   "packageManager": "pnpm@10.6.1+sha512.40ee09af407fa9fbb5fbfb8e1cb40fbb74c0af0c3e10e9224d7b53c7658528615b2c92450e74cfad91e3a2dcafe3ce4050d80bda71d757756d2ce2b66213e9a3"
